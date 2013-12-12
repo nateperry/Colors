@@ -12,6 +12,7 @@ body {
 	left: 0;
 	right: 0;
 	bottom: 0;
+	height: 100%;
 }
 a {
 	-webkit-transition: all 300ms ease-in;
@@ -19,13 +20,29 @@ a {
 	-o-transition: all 300ms ease-in;
 	transition: all 300ms ease-in;
 }
-
 h1, h2, h3, h4, h5, h6 {
 	font-weight: 300;
 	color: #FFFFFF;
 }
 h1 {
 	font-size: 4em;
+}
+#loading {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0,0,0,0.4);
+	text-align: center;
+	font-size: 10em;
+	color: rgba(0,0,0,0.3);
+}
+#loading span{
+	top: 30%;
+	position: relative;
 }
 .container {
 	width: 100%;
