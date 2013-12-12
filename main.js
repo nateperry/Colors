@@ -56,6 +56,9 @@ Loader = {
 };
 
 Data = {
+	red : [],
+	green : [],
+	blue : [],
 	allColors : [],
 	colors : [],
 	init : function (data) {
@@ -100,15 +103,54 @@ Data = {
 			23: ""cx""
 			24: ""cy""
 		*/
-		var $main = $doc.find('#main .inner');
+		
 		this.colors.forEach(function (item) {
-			$main.append('<span class="colorblock" style="background:rgb(' + item.r + ',' + item.g + ',' + item.b + ')">&nbsp;</span>');
+			if (item.r >= item.g && item.r >= item.b) {
+				Data.red.push(item);
+			}
+			else if (item.r <= item.g && item.r >= item.b) {
+				Data.blue.push(item);
+			}
+			else if (item.g >= item.b) {
+				Data.green.push(item);
+			}
+			else {
+				Data.blue.push(item);
+			}
+		});
+
+/*
+		this.red.sort(function (a, b) {
+			return a.r - b.r;
+		});
+		this.green.sort(function (a, b) {
+			return a.g - b.g;
+		});
+		this.blue.sort(function (a, b) {
+			return a.b - b.b;
+		}); */
+
+		var $slider = $doc.find('#slider');
+		$slider.append('<h1>Red</h1><hr />');
+		this.red.forEach(function (item) {
+			$slider.append( Data.createColorElement(item) );
+		});
+		$slider.append('<h1>Green</h1><hr />');
+		this.green.forEach(function (item) {
+			$slider.append( Data.createColorElement(item) );
+		});
+		$slider.append('<h1>Blue</h1><hr />');
+		this.blue.forEach(function (item) {
+			$slider.append( Data.createColorElement(item) );
 		});
 	},
 	splitData : function (data, regex) {
 		var result = data.split(regex);
 		return result;
-	}
+	},
+	createColorElement : function (item) {
+		return '<span class="colorblock" style="background:rgb(' + item.r + ',' + item.g + ',' + item.b + ')">&nbsp;</span>';
+	},
 };
 
 Graphics = {

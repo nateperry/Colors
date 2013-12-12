@@ -44,6 +44,9 @@ h1 {
 	top: 30%;
 	position: relative;
 }
+#main {
+	position: fixed;
+}
 .container {
 	width: 100%;
 }
@@ -53,6 +56,10 @@ h1 {
 }
 .colorblock {
 	width: 5px;
-	height: 5px;
+	height: 150px;
 	display: inline-block;
+}
+
+hr {
+	margin-bottom: 10px;
 }
