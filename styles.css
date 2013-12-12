@@ -51,3 +51,8 @@ h1 {
 	max-width: 1000px;
 	margin: 0 auto;
 }
+.colorblock {
+	width: 5px;
+	height: 5px;
+	display: inline-block;
+}

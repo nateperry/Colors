@@ -61,15 +61,15 @@ Data = {
 	init : function (data) {
 		this.allColors = this.splitData(data, "\n");
 
-		//Populate arrays wiith correct data
+		//Populate arrays with color data
 		this.allColors.forEach(function (item) {
 			var info = Data.splitData(item, ",");
 			var color = {
-							r : info[0],
-							g : info[1],
-							b : info[2],
+							r : info[0].replace(/"/, ""),
+							g : info[1].replace(/"/, ""),
+							b : info[2].replace(/"/, ""),
 							name : info[20]
-						}
+						};
 			Data.colors.push( color );
 		});
 		/*
@@ -100,6 +100,10 @@ Data = {
 			23: ""cx""
 			24: ""cy""
 		*/
+		var $main = $doc.find('#main .inner');
+		this.colors.forEach(function (item) {
+			$main.append('<span class="colorblock" style="background:rgb(' + item.r + ',' + item.g + ',' + item.b + ')">&nbsp;</span>');
+		});
 	},
 	splitData : function (data, regex) {
 		var result = data.split(regex);
