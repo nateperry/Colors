@@ -73,7 +73,7 @@ Data = {
 							h : null,
 							s : null,
 							l : null,
-							name : info[6].replace(/"/g, "")
+							name : info[20].replace(/"/g, "")
 						};
 			Data.colors.push( color );
 		});
@@ -185,6 +185,7 @@ Events={
 				$('.colorblock').on('click', Events.openBlock);
 				$('.closing').removeClass('closing');
 				window.clearTimeout(timeout);
+				('.colorblock').on('click', Events.openBlock);
 			}, 700);
 	}
 }
