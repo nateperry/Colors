@@ -7,11 +7,10 @@ Description: Main file for controlling data loading and page display
 'use strict'
 
 //global vars
-var App,Loader, Graphics, Data, $doc;
+var App,Loader, Events, Data, $doc;
 
 App = {
 	init : function () {
-		console.log('init');
 		$doc = $(document); //document caching
 		Loader.init();
 	}
@@ -46,9 +45,9 @@ Loader = {
 		}
 	},
 	onRequestSuccess : function (data) {
-		console.log('success');
 		Data.init(data);
 		Loader.$loading.delay(800).animate({opacity: 0}, 800, function () {this.style.display = 'none'});
+		$('#title').fadeOut(300).text('Choose a fucking color?').css('color', '#858384').fadeIn(1000);
 	},
 	onRequestError : function () {
 		console.log('failed to load');
@@ -71,7 +70,10 @@ Data = {
 							r : info[0].replace(/"/, ""),
 							g : info[1].replace(/"/, ""),
 							b : info[2].replace(/"/, ""),
-							name : info[20]
+							h : null,
+							s : null,
+							l : null,
+							name : info[6].replace(/"/g, "")
 						};
 			Data.colors.push( color );
 		});
@@ -104,59 +106,87 @@ Data = {
 			24: ""cy""
 		*/
 		
+		// Sort colors by HSL values
 		this.colors.forEach(function (item) {
-			if (item.r >= item.g && item.r >= item.b) {
-				Data.red.push(item);
-			}
-			else if (item.r <= item.g && item.r >= item.b) {
-				Data.blue.push(item);
-			}
-			else if (item.g >= item.b) {
-				Data.green.push(item);
-			}
-			else {
-				Data.blue.push(item);
-			}
+			var hsl = Data.getHSLValue(item.r, item.g, item.b);
+
+			item.h = hsl[0];
+			item.s = hsl[1];
+			item.l = hsl[2];
 		});
 
-/*
-		this.red.sort(function (a, b) {
-			return a.r - b.r;
+		this.colors.sort(function (a, b) {
+			return a.h - b.h;
 		});
-		this.green.sort(function (a, b) {
-			return a.g - b.g;
-		});
-		this.blue.sort(function (a, b) {
-			return a.b - b.b;
-		}); */
 
 		var $slider = $doc.find('#slider');
-		$slider.append('<h1>Red</h1><hr />');
-		this.red.forEach(function (item) {
+		this.colors.forEach(function (item) {
 			$slider.append( Data.createColorElement(item) );
+					
 		});
-		$slider.append('<h1>Green</h1><hr />');
-		this.green.forEach(function (item) {
-			$slider.append( Data.createColorElement(item) );
-		});
-		$slider.append('<h1>Blue</h1><hr />');
-		this.blue.forEach(function (item) {
-			$slider.append( Data.createColorElement(item) );
-		});
+
+		Events.init();
 	},
 	splitData : function (data, regex) {
 		var result = data.split(regex);
 		return result;
 	},
 	createColorElement : function (item) {
-		return '<span class="colorblock" style="background:rgb(' + item.r + ',' + item.g + ',' + item.b + ')">&nbsp;</span>';
+		var rgb =  "<span class='rgbval'>rgb ( "+item.r + ', ' + item.g + ', ' + item.b+' )</span>';
+		var hsl =  "<span class='hslval'>hsl ( "+Math.floor(item.h) + ', ' + Math.floor(item.s*100) + '% , ' + Math.floor(item.l*100)+'% )</span>';
+		return '<div class="colorblock" style=" background:rgb(' + item.r + ',' + item.g + ',' + item.b + ')"><a href="#CLOSE" class="closer">X</a>'+ "<h3 class='name'>"+ item.name+"</h3>"+ rgb + hsl+"</span></div>";
 	},
-};
+	getHSLValue : function (r, g, b) {
+		r /= 255, g /= 255, b /= 255;
+		var max = Math.max(r, g, b), min = Math.min(r, g, b);
+		var h, s, l = (max + min) / 2;
 
-Graphics = {
-	init : function () {
-
+		if(max == min){
+			h = s = 0; // achromatic
+		}
+		else {
+			var d = max - min;
+			s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+			switch(max){
+				case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+				case g: h = (b - r) / d + 2; break;
+				case b: h = (r - g) / d + 4; break;
+			}
+			h /= 6;
+		}
+		return [h, s, l];
 	}
 };
+
+Events={
+	init:function (){
+		$doc.find('.colorblock').on('click', Events.openBlock);
+		$doc.find('.closer').on('click', Events.closeBlock);
+	},
+	openBlock:function(e) {
+		e.preventDefault();
+		if ( ! $(e.target).hasClass('open') ) {
+			$('.closing').removeClass('closing');
+			$('.open').removeClass('open').addClass('closing');
+			$(e.currentTarget).addClass('open').off();
+
+
+			var timeout = window.setTimeout(function () {
+				$('.closing').removeClass('closing');
+				window.clearTimeout(timeout);
+			}, 700);
+
+		}
+	},
+	closeBlock : function (e) {
+		e.preventDefault();
+		$('.colorblock').removeClass('open').addClass('closing');
+		var timeout = window.setTimeout(function () {
+				$('.colorblock').on('click', Events.openBlock);
+				$('.closing').removeClass('closing');
+				window.clearTimeout(timeout);
+			}, 700);
+	}
+}
 
 window.onload = App.init;
