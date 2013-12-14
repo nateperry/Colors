@@ -47,7 +47,9 @@ Loader = {
 	onRequestSuccess : function (data) {
 		Data.init(data);
 		Loader.$loading.delay(200).animate({opacity: 0}, 800, function () {this.style.display = 'none'});
-		$('#title').fadeOut(300).text('Colors.').css('color', '#858384').fadeIn(1000);
+		$('#title').animate({opacity: 0}, 800, function () {
+			$(this).text('Colors.').animate({opacity: 1}, 1000);
+		});
 	},
 	onRequestError : function () {
 		console.log('failed to load');
@@ -132,8 +134,11 @@ Data = {
 	},
 	createColorElement : function (item) {
 		var element;
+
+		var style = (Math.floor(item.l * 100) > 50) ? " light" : "";
+
 		element =  	'<div class="colorblock" style=" background:rgb(' + item.r + ',' + item.g + ',' + item.b + ')">';
-		element += 		'<div class="color-info">';
+		element += 		'<div class="color-info'+  style +'">';
 		element += 			'<a href="#CLOSE" class="closer">X</a>';
 		element +=			'<h3 class="name">'+ item.name+'</h3>';
 		element += 			'<span class="rgbval">rgb ( ' + item.r + ', ' + item.g + ', ' + item.b +' )</span>';

@@ -2,27 +2,19 @@
 	margin: 0; 
 	padding: 0;
 }
+html {
+	height: 100%;
+}
 body {
 	font-family: 'Lato', sans-serif;
 	font-size: 16px;
-	background: #196988;
-	color: #3E4457;
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	height: 100%;
-
 	background: #ffffff; /* Old browsers */
-	background: -moz-linear-gradient(top,  #ffffff 0%, #efefef 74%, #afb5b5 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(74%,#efefef), color-stop(100%,#afb5b5)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top,  #ffffff 0%,#efefef 74%,#afb5b5 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top,  #ffffff 0%,#efefef 74%,#afb5b5 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top,  #ffffff 0%,#efefef 74%,#afb5b5 100%); /* IE10+ */
-	background: linear-gradient(to bottom,  #ffffff 0%,#efefef 74%,#afb5b5 100%); /* W3C */
+	background: -moz-linear-gradient(to bottom, #ffffff 0%,#D8D4D4 75%,#D1D8D8 100%);
+	background: -webkit-linear-gradient(to bottom, #ffffff 0%,#D8D4D4 75%,#D1D8D8 100%);
+	background: -o-linear-gradient(to bottom, #ffffff 0%,#D8D4D4 75%,#D1D8D8 100%);
+	background: -ms-linear-gradient(to bottom, #ffffff 0%,#D8D4D4 75%,#D1D8D8 100%);
+	background: linear-gradient(to bottom, #ffffff 0%,#D8D4D4 75%,#D1D8D8 100%)
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#afb5b5',GradientType=0 ); /* IE6-9 */
-
 }
 a {
 	-webkit-transition: all 300ms ease-in;
@@ -32,10 +24,12 @@ a {
 }
 h1, h2, h3, h4, h5, h6 {
 	font-weight: 300;
-	color: #FFFFFF;
 }
 h1 {
 	font-size: 4em;
+}
+#title {
+	color: #858384;
 }
 #loading {
 	position: fixed;
@@ -61,13 +55,11 @@ h1 {
 	max-width: 1000px;
 	margin: 10px auto 0 20%;
 }
-
 #slider {
 	position: relative;
 	margin-top: 100px;
 	margin-left: 24%;
 	width: 80800px;
-	
 }
 .colorblock {
 	position:relative;
@@ -80,9 +72,7 @@ h1 {
 	-webkit-box-shadow: 1px 2px 5px #383636;
 	box-shadow:         1px 2px 5px #383636;
 	margin-right:5px;
-	color: rgba(255,255,255,0.5);
 	overflow: hidden;
-
 	-webkit-transition: width 500ms ease-in-out;
     -moz-transition: 	width 500ms ease-in-out;
     -o-transition: 		width 500ms ease-in-out;
@@ -95,16 +85,20 @@ h1 {
 .colorblock.open {
 	width: 400px;
 }
-.colorblock .color-info {
+.color-info {
+	color: #FFF;
 	display: none;
 	margin: 10px;
 	position: relative;
 	opacity: 0;
+
 }
-.colorblock .color-info.show {
+.color-info.show {
 	display: block;
 }
-
+.color-info.light {
+	color: #333;
+}
 .name, .rgbval, .hslval, .closer {
 	display: block;
 }
