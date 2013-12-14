@@ -46,8 +46,8 @@ Loader = {
 	},
 	onRequestSuccess : function (data) {
 		Data.init(data);
-		Loader.$loading.delay(800).animate({opacity: 0}, 800, function () {this.style.display = 'none'});
-		$('#title').fadeOut(300).text('Choose a fucking color?').css('color', '#858384').fadeIn(1000);
+		Loader.$loading.delay(200).animate({opacity: 0}, 800, function () {this.style.display = 'none'});
+		$('#title').fadeOut(300).text('Colors.').css('color', '#858384').fadeIn(1000);
 	},
 	onRequestError : function () {
 		console.log('failed to load');
@@ -122,7 +122,6 @@ Data = {
 		var $slider = $doc.find('#slider');
 		this.colors.forEach(function (item) {
 			$slider.append( Data.createColorElement(item) );
-					
 		});
 
 		Events.init();
@@ -132,9 +131,16 @@ Data = {
 		return result;
 	},
 	createColorElement : function (item) {
-		var rgb =  "<span class='rgbval'>rgb ( "+item.r + ', ' + item.g + ', ' + item.b+' )</span>';
-		var hsl =  "<span class='hslval'>hsl ( "+Math.floor(item.h) + ', ' + Math.floor(item.s*100) + '% , ' + Math.floor(item.l*100)+'% )</span>';
-		return '<div class="colorblock" style=" background:rgb(' + item.r + ',' + item.g + ',' + item.b + ')"><a href="#CLOSE" class="closer">X</a>'+ "<h3 class='name'>"+ item.name+"</h3>"+ rgb + hsl+"</span></div>";
+		var element;
+		element =  	'<div class="colorblock" style=" background:rgb(' + item.r + ',' + item.g + ',' + item.b + ')">';
+		element += 		'<div class="color-info">';
+		element += 			'<a href="#CLOSE" class="closer">X</a>';
+		element +=			'<h3 class="name">'+ item.name+'</h3>';
+		element += 			'<span class="rgbval">rgb ( ' + item.r + ', ' + item.g + ', ' + item.b +' )</span>';
+		element += 			'<span class="hslval">hsl ( ' + Math.floor(item.h) + ', ' + Math.floor(item.s*100) + '% , ' + Math.floor(item.l*100) + '% )</span>';
+		element +=		'</div>';
+		element +=	'</div>';
+		return element;
 	},
 	getHSLValue : function (r, g, b) {
 		r /= 255, g /= 255, b /= 255;
@@ -158,35 +164,52 @@ Data = {
 	}
 };
 
-Events={
+Events = {
+	currentBlock : null,
+	currentInfo : null,
+	oldBlock : null,
+	oldInfo : null,
 	init:function (){
 		$doc.find('.colorblock').on('click', Events.openBlock);
-		$doc.find('.closer').on('click', Events.closeBlock);
+		$doc.find('.closer').on('click', Events.closerClick);
 	},
 	openBlock:function(e) {
 		e.preventDefault();
-		if ( ! $(e.target).hasClass('open') ) {
-			$('.closing').removeClass('closing');
-			$('.open').removeClass('open').addClass('closing');
-			$(e.currentTarget).addClass('open').off();
+		e.stopPropagation();
 
+		if (Events.currentBlock != null) {
+			// closes current block
+			Events.oldBlock = Events.currentBlock;
+			Events.oldInfo = Events.currentInfo;
 
-			var timeout = window.setTimeout(function () {
-				$('.closing').removeClass('closing');
-				window.clearTimeout(timeout);
-			}, 700);
+			Events.currentInfo.stop().animate({opacity: 0}, 300, function () {
+				Events.oldBlock.removeClass('open');
+				Events.oldInfo.removeClass('show');
+				//turn on event listener
+				Events.oldBlock.on('click', Events.openBlock);
+			});
+		}
 
+		//sets new block
+		Events.currentBlock = $(e.target);
+		Events.currentInfo = Events.currentBlock.find('.color-info');
+
+		if ( ! Events.currentBlock.hasClass('open') ) {
+			Events.currentBlock.addClass('open');
+			Events.currentInfo.addClass('show').delay(500).animate({opacity: 1}, 300, function () {
+				// turn off event listener
+				Events.currentBlock.off('click');
+			});
 		}
 	},
-	closeBlock : function (e) {
+	closerClick : function (e) {
 		e.preventDefault();
-		$('.colorblock').removeClass('open').addClass('closing');
-		var timeout = window.setTimeout(function () {
-				$('.colorblock').on('click', Events.openBlock);
-				$('.closing').removeClass('closing');
-				window.clearTimeout(timeout);
-				('.colorblock').on('click', Events.openBlock);
-			}, 700);
+		Events.currentInfo.stop().animate({opacity: 0}, 300, function () {
+			Events.currentInfo.removeClass('show');
+			Events.currentBlock.removeClass('open');
+			//turn on event listener
+			Events.currentBlock.on('click', Events.openBlock);
+		});
 	}
 }
 

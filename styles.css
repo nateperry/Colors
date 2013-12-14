@@ -54,22 +54,19 @@ h1 {
 	top: 30%;
 	position: relative;
 }
-#main {
-	position: fixed;
-}
 .container {
 	width: 100%;
 }
 .inner {
 	max-width: 1000px;
-	margin: 0 auto;
+	margin: 10px auto 0 20%;
 }
 
 #slider {
 	position: relative;
-	margin-top: 10%;
+	margin-top: 100px;
 	margin-left: 24%;
-	width: 80400px;
+	width: 80800px;
 	
 }
 .colorblock {
@@ -85,51 +82,56 @@ h1 {
 	margin-right:5px;
 	color: rgba(255,255,255,0.5);
 	overflow: hidden;
-	-webkit-transition: all 700ms ease-in 0;
-	-moz-transition: all 700ms ease-in 0; 
-	-o-transition: all 700ms ease-in 0;
-	transition: all 700ms ease-in 0;
+
+	-webkit-transition: width 500ms ease-in-out;
+    -moz-transition: 	width 500ms ease-in-out;
+    -o-transition: 		width 500ms ease-in-out;
+    transition: 		width 500ms ease-in-out;
 }
 .colorblock:hover {
 	cursor: pointer;
 }
-.colorblock.open{
+
+.colorblock.open {
 	width: 400px;
 }
-.colorblock.open:hover {
-	cursor: auto;
+.colorblock .color-info {
+	display: none;
+	margin: 10px;
+	position: relative;
+	opacity: 0;
+}
+.colorblock .color-info.show {
+	display: block;
+}
+
+.name, .rgbval, .hslval, .closer {
+	display: block;
+}
+.name	{
+	padding-top: 20px;
+	padding-bottom: 30px;
 }
 .closer {
 	position: absolute;
-	top: 5px;
-	right: 5px;
+	top: 0px;
+	right: 0px;
 	font-weight: bold;
 	text-decoration: none;
 	color:#EEE;
 }
-.colorblock.open .closer{
-	opacity:1;
+.closer:hover {
+	color: #888;
 }
-.name, .rgbval, .hslval, .closer {
-	-webkit-transition: all 300ms ease-in 700ms ;
-	-moz-transition: all 300ms ease-in 700ms;
-	-o-transition: all 300ms ease-in 700ms ;
-	transition: all 300ms ease-in 700ms;
-	opacity: 0;
-	display: block;
+.footer {
+	position: fixed;
+	bottom: 5px;
+	font-size: 1em;
 }
-
-/*inside colorblocks*/
-.colorblock.open .name{
-	margin-top: 20px;
-	opacity: 1;
+.footer a {
+	color: rgb( 250, 54, 53);
+	text-decoration: none;
 }
-
-.colorblock.open .rgbval, .colorblock.open .hslval, .colorblock.open .name {
-	opacity: 1;
-	margin-left: 10px;
-}
-
-.colorblock.closing .rgbval, .colorblock.closing .hslval, .colorblock.closing .name {
-	display: none;
-}
+.footer a:hover {
+	color: rgb( 224, 4, 134 )
+};
