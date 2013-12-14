@@ -75,8 +75,15 @@ Data = {
 							h : null,
 							s : null,
 							l : null,
-							name : info[20].replace(/"/g, "")
+							name : info[20].replace(/"/g, ""),
+							othernames:[];
 						};
+
+			for(var i=4; i<=18;){
+				color.othernames.push(info[i]);
+				i+=2;
+			}
+
 			Data.colors.push( color );
 		});
 		/*
