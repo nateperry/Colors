@@ -142,7 +142,7 @@ Data = {
 	createColorElement : function (item) {
 		var element;
 
-		var style = (Math.floor(item.l * 100) > 50) ? " light" : "";
+		var style = (Math.floor(item.l * 100) > 50) ? " light" : ""; //condition if hue > 50, then font color brightens
 
 		element =  	'<div class="colorblock" style=" background:rgb(' + item.r + ',' + item.g + ',' + item.b + ')">';
 		element += 		'<div class="color-info'+  style +'">';
