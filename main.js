@@ -76,7 +76,7 @@ Data = {
 							s : null,
 							l : null,
 							name : info[20].replace(/"/g, ""),
-							othernames:[];
+							othernames:[]
 						};
 
 			for(var i=4; i<=18;){
