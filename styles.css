@@ -28,8 +28,13 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
 	font-size: 4em;
 }
+#main {
+	position: fixed;
+	top: 0;
+}
 #title {
 	color: #858384;
+	position: fixed;
 }
 #loading {
 	position: fixed;
@@ -57,7 +62,7 @@ h1 {
 }
 #slider {
 	position: relative;
-	margin-top: 100px;
+	margin-top: 200px;
 	margin-left: 24%;
 	width: 80800px;
 }
