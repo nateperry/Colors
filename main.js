@@ -45,6 +45,7 @@ Loader = {
 		}
 	},
 	onRequestSuccess : function (data) {
+		Loader.$percentage.text('100');
 		Data.init(data);
 		Loader.$loading.delay(200).animate({opacity: 0}, 800, function () {this.style.display = 'none'});
 		$('#title').animate({opacity: 0}, 800, function () {
@@ -76,49 +77,18 @@ Data = {
 							s : null,
 							l : null,
 							name : info[20].replace(/"/g, ""),
-							othernames:[]
+							othernames : []
 						};
-
-			for(var i=4; i<=18;){
-				color.othernames.push(info[i]);
-				i+=2;
+			for(var i  =4; i <= 18; i += 2){
+				color.othernames.push(info[i].replace(/"/g, ""));
 			}
-
 			Data.colors.push( color );
 		});
-		/*
-			index values
-			0: ""r""
-			1: ""g""
-			2: ""b""
-			3: ""RGB""
-			4: ""Spanish""
-			5: ""EN_ES""
-			6: ""Russian""
-			7: ""EN_RU""
-			8: ""German""
-			9: ""EN_DE""
-			10: ""French""
-			11: ""EN_FR""
-			12: ""Chinese""
-			13: ""EN_ZH""
-			14: ""Italian""
-			15: ""EN_IT""
-			16: ""Korean""
-			17: ""EN_KO""
-			18: ""Japanese""
-			19: ""EN_JA""
-			20: ""name""
-			21: ""short_name""
-			22: ""med_name""
-			23: ""cx""
-			24: ""cy""
-		*/
+		
 		
 		// Sort colors by HSL values
 		this.colors.forEach(function (item) {
 			var hsl = Data.getHSLValue(item.r, item.g, item.b);
-
 			item.h = hsl[0];
 			item.s = hsl[1];
 			item.l = hsl[2];
@@ -143,13 +113,50 @@ Data = {
 		var element;
 
 		var style = (Math.floor(item.l * 100) > 50) ? " light" : ""; //condition if hue > 50, then font color brightens
-
+		/*
+			index values
+			0: ""r""
+			1: ""g""
+			2: ""b""
+			3: ""RGB""
+			4: ""Spanish""
+				5: ""EN_ES""
+			6: ""Russian""
+				7: ""EN_RU""
+			8: ""German""
+				9: ""EN_DE""
+			10: ""French""
+				11: ""EN_FR""
+			12: ""Chinese""
+				13: ""EN_ZH""
+			14: ""Italian""
+				15: ""EN_IT""
+			16: ""Korean""
+				17: ""EN_KO""
+			18: ""Japanese""
+				19: ""EN_JA""
+			20: ""name""
+			21: ""short_name""
+			22: ""med_name""
+			23: ""cx""
+			24: ""cy""
+		*/
 		element =  	'<div class="colorblock" style=" background:rgb(' + item.r + ',' + item.g + ',' + item.b + ')">';
 		element += 		'<div class="color-info'+  style +'">';
 		element += 			'<a href="#CLOSE" class="closer">X</a>';
 		element +=			'<h3 class="name">'+ item.name+'</h3>';
-		element += 			'<span class="rgbval">rgb ( ' + item.r + ', ' + item.g + ', ' + item.b +' )</span>';
-		element += 			'<span class="hslval">hsl ( ' + Math.floor(item.h) + ', ' + Math.floor(item.s*100) + '% , ' + Math.floor(item.l*100) + '% )</span>';
+		element += 			'<span class="rgbval">rgb( ' + item.r + ', ' + item.g + ', ' + item.b +' )</span>';
+		element += 			'<span class="hslval">hsl( ' + Math.floor(item.h) + ', ' + Math.floor(item.s*100) + '% , ' + Math.floor(item.l*100) + '% )</span>';
+		element += 			'<div class="languages">';
+		element +=				'<span class="language" lang="es">Spanish - ' + item.othernames[0] +'</span>';
+		element +=				'<span class="language" lang="ru">Russian - ' + item.othernames[1] +'</span>';
+		element +=				'<span class="language" lang="de">German - ' + item.othernames[2] +'</span>';
+		element +=				'<span class="language" lang="fr">French - ' + item.othernames[3] +'</span>';
+		element +=				'<span class="language" lang="zh">Chinese - ' + item.othernames[4] +'</span>';
+		element +=				'<span class="language" lang="it">Italian - ' + item.othernames[5] +'</span>';
+		element +=				'<span class="language" lang="ko">Korean - ' + item.othernames[6] +'</span>';
+		element +=				'<span class="language" lang="ja">Japanese - ' + item.othernames[7] +'</span>';
+		element +=			'</div>';
 		element +=		'</div>';
 		element +=	'</div>';
 		return element;
